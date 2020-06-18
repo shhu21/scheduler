@@ -1,9 +1,3 @@
-var task = {
-    state: "",
-    date: "",
-    desc: ""
-};
-
 var times = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
 
 // get element to change the day at the time
@@ -27,7 +21,7 @@ function createElements () {
             .addClass("col-1 hour")
             .text(`${times[i]}`);
 
-        var descDiv = $("<div>").addClass("col-10 border description");
+        var descDiv = $("<textarea>").addClass("col-10 border description");
         if(times[i] === currentHour) {
             descDiv.addClass("present");
             ifPresent = true;
@@ -39,59 +33,40 @@ function createElements () {
             descDiv.addClass("future");
         }
 
-        if(localStorage.getItem(times[i]) === null) {
-            var desc = $("<p>").text("No Tasks");
+        if(localStorage.getItem(times[i])) {
+            descDiv.val(`${localStorage.getItem(times[i])}`);
         }
-        else {
-            var desc = $("<p>").text(localStorage.getItem(times[i]));
-        }
-        var tab = $("<div>").addClass("col-1 rounded-left time-block");
-        descDiv.append(desc);
+
+        var tab = $("<button>").addClass("col-1 rounded-left time-block saveBtn");
+        var saveEl = $("<i>").text("SAVE");
+        tab.append(saveEl);
         row.append(hour, descDiv, tab);
         $('.container').append(row);
     }
 }
 
 var edit = function () {
-    // get current text
-    var desc = $(this)
-    .text()
-    .trim();
-    
-
-    // create new input element
-    var newDesc = $("<input>")
-    .attr("type", "text")
-    .addClass("form-control")
-    .val(desc);
-
-    // swap out elements
-    $(this).replaceWith(newDesc);
-
-    // automatically focus on new element
-    newDesc.trigger("focus");
+    $(this.nextElementSibling).addClass("save");
+    $('.save').on('click', save);
 }
 
 var save = function () {
-    console.log(this);
-    var desc = $(this)
-        .val()
-        .trim();
-    var index = $(".col").index(this);
-    console.log(index);
-    var time = $(".hour")[index].textContent;
+    $('.description').off('click', edit);
+    console.log("save");
+    var desc = this.previousElementSibling;
+    this.removeAttribute('id');
+
+    desc.removeAttribute("id");
+    var newDesc = desc.value;
+    console.log(newDesc);
+    var time = desc.previousElementSibling.textContent;
     console.log(time);
-    localStorage.setItem(time, desc);
 
-    // create new p element
-    var newDesc = $("<p>")
-        .text(desc);
+    localStorage.setItem(time, newDesc);
 
-    // swap out elements
-    $(this).replaceWith(newDesc);
+    $('.description').on('click', edit);
+    $(this).off('click', save);
 }
 
 createElements();
-$(".description").on("blur", "input[type='text']", save);
-// jquery onclick
-$('.description').on('click', 'p', edit);
+$('.description').on('click', edit);
