@@ -38,15 +38,17 @@ function createElements () {
         }
 
         var tab = $("<button>").addClass("col-1 rounded-left time-block saveBtn");
-        var saveEl = $("<i>").text("SAVE");
-        tab.append(saveEl);
+        // var saveEl = $("<i>").text("SAVE");
+        // tab.append(saveEl);
         row.append(hour, descDiv, tab);
         $('.container').append(row);
     }
 }
 
 var edit = function () {
-    $(this.nextElementSibling).addClass("save");
+    $(this.nextElementSibling)
+    .addClass("save")
+    .append($("<i>").text("SAVE"));
     $('.save').on('click', save);
 }
 
@@ -58,7 +60,6 @@ var save = function () {
 
     desc.removeAttribute("id");
     var newDesc = desc.value;
-    console.log(newDesc);
     var time = desc.previousElementSibling.textContent;
     console.log(time);
 
@@ -66,6 +67,7 @@ var save = function () {
 
     $('.description').on('click', edit);
     $(this).off('click', save);
+    this.innerHTML = "";
 }
 
 createElements();
