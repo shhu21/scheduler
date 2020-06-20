@@ -19,6 +19,7 @@ function setHour () {
 // create the grid
 function createElements () {
     setHour();
+    currentHour = "2PM";
     var ifPresent = false;
     for(var i = 0; i < times.length; i++){
         // row
