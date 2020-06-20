@@ -3,23 +3,25 @@ var times = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
 
 // set the day on the page
 $("#currentDay").text(`${moment().format(`dddd, MMMM Do`)}`);
-// current hour
-var currentHour = "";
 
 // set the current hour
 function setHour () {
     // format: 0:00 XM
     var getHour = moment().format('LT');
+
+    var currentHour = "";
     // get the hour
     currentHour += getHour.split(":", 1);
     // get the AM/PM
     currentHour += getHour.substr(getHour.indexOf(" ") + 1);
+    return currentHour;
 }
 
 // create the grid
 function createElements () {
-    setHour();
-    currentHour = "2PM";
+    // current hour
+    var currentHour = setHour();
+    
     var ifPresent = false;
     for(var i = 0; i < times.length; i++){
         // row
