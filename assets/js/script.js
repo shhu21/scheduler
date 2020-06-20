@@ -25,10 +25,10 @@ function createElements () {
         var row = $("<div>").addClass("row");
         // hour
         var hour = $("<div>")
-            .addClass("col-1 hour")
+            .addClass("col-lg-1 col-md-1 col-sm-12 col-12 hour")
             .text(`${times[i]}`);
         // description
-        var desc = $("<textarea>").addClass("col-10 border description");
+        var desc = $("<textarea>").addClass("col-lg-10 col-md-10 col-sm-12 col-12 border description");
 
         // if the time matches the current hour mark as 'present'
         if(times[i] === currentHour) {
@@ -50,7 +50,7 @@ function createElements () {
         }
 
         // save button
-        var tab = $("<button>").addClass("col-1 rounded-left time-block saveBtn");
+        var tab = $("<button>").addClass("col-lg-1 col-md-1 col-sm-12 col-12 rounded-left time-block saveBtn");
         // <i> for the save button
         var saveEl = $("<i>").addClass("fas fa-save");
 
