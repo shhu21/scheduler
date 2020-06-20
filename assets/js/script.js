@@ -9,6 +9,7 @@ function setHour () {
     hourArr.push(getHour.split(":", 1));
     hourArr.push(getHour.substr(getHour.indexOf(" ") + 1));
     currentHour = `${hourArr[0]}${hourArr[1]}`;
+    debugger
 }
 
 function createElements () {
@@ -21,7 +22,7 @@ function createElements () {
             .addClass("col-1 hour")
             .text(`${times[i]}`);
 
-        var descDiv = $("<div>").addClass("col-10 border description");
+        var descDiv = $("<textarea>").addClass("col-10 border description");
         if(times[i] === currentHour) {
             descDiv.addClass("present");
             ifPresent = true;
@@ -34,7 +35,7 @@ function createElements () {
         }
 
         if(localStorage.getItem(times[i])) {
-            descDiv.text(`${localStorage.getItem(times[i])}`);
+            descDiv.val(`${localStorage.getItem(times[i])}`);
         }
 
         var tab = $("<button>").addClass("col-1 rounded-left time-block saveBtn");
@@ -45,40 +46,11 @@ function createElements () {
     }
 }
 
-var edit = function () {
-    var saveState = this;
-    var desc = $(this).text();
-    var allClasses = this.className;
-    var time = this.previousElementSibling.textContent;
-    
-    var newTextArea = $("<textarea>")
-    .addClass(allClasses)
-    .attr("id", "edit")
-    .text(desc);
-    
-    $(this).replaceWith(newTextArea);
-    newTextArea.trigger("focus");
-    $('.save').on('click', save);
-}
-
 var save = function () {
-    var desc = this.previousElementSibling;
-    this.removeAttribute('id');
-
-    var newDesc = desc.value;
-    var time = desc.previousElementSibling.textContent;
-
+    var newDesc = this.previousElementSibling.value;
+    var time = this.previousElementSibling.previousElementSibling.textContent;
     localStorage.setItem(time, newDesc);
-
-    var allClasses = desc.className;
-    var newDiv = $("<div>")
-        .addClass(allClasses)
-        .text(newDesc);
-    $(desc).replaceWith(newDiv);
-
-    $(this).off('click', save);
-    this.innerHTML = "";
 }
 
 createElements();
-$('.description').on('click', edit);
+$('.saveBtn').on('click', save);
